@@ -51,6 +51,8 @@ public class Users {
     @OneToMany(mappedBy = "users")
     private List<Payment> payments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<UserChatRoom> userChatRooms = new ArrayList<>();
     @CreatedDate
     private LocalDateTime createdAt;
 
