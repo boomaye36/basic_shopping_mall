@@ -1,13 +1,16 @@
 package com.shopping.shopping_mall.api;
 
 import com.shopping.shopping_mall.domain.Chat;
+import com.shopping.shopping_mall.domain.UserChatRoom;
 import com.shopping.shopping_mall.dto.ChatRoom;
+import com.shopping.shopping_mall.dto.ChatRoomDto;
+import com.shopping.shopping_mall.dto.UserChatRoomDto;
 import com.shopping.shopping_mall.repository.ChatRepository;
 import com.shopping.shopping_mall.service.ChatService;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -19,11 +22,18 @@ public class ChatController {
     private final ChatRepository chatRepository;
     @PostMapping
     public Chat createRoom(@RequestParam String roomName,@RequestParam Long userId){
+
         return chatService.createRoom(roomName, userId);
     }
 
-    @GetMapping
-    public List<ChatRoom> findAllRoom(){
-        return chatService.findAllRoom();
+    @GetMapping("/find")
+    public List<ChatRoomDto> findAllRoom(){
+
+        return chatService.getAllUserChatRooms();
+    }
+
+    @PostMapping("/join")
+    public Chat joinRoom(@RequestParam String roomName, @RequestParam Long userId){
+        return chatService.joinRoom(roomName, userId);
     }
 }

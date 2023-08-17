@@ -24,6 +24,8 @@ public class Chat {
     private String roomId;
 
     private String roomName;
+
+    private int cnt;
     @OneToMany(mappedBy = "chat")
     private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
@@ -34,5 +36,13 @@ public class Chat {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    public UserChatRoom addUserToChat(Users user) {
+        UserChatRoom userChatRoom = new UserChatRoom();
+        userChatRoom.setChat(this);
+        userChatRoom.setUser(user);
+        userChatRooms.add(userChatRoom);
 
+        cnt++;
+        return userChatRoom;
+    }
 }

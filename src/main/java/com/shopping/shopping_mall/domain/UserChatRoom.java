@@ -39,9 +39,14 @@ public class UserChatRoom {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-//    public static UserChatRoom createUserChat(Users user){
+    //    public static UserChatRoom createUserChat(Users user){
 //        UserChatRoom userChatRoom = new UserChatRoom();
 //        userChatRoom.setUser(user);
 //        userChatRoom.setCnt(cnt);
 //    }
+    public void addMember(Users user, Chat chat) {
+        this.setUser(user);
+        this.setChat(chat);
+        //cnt++;
+    }
 }
