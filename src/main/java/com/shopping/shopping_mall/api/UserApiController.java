@@ -1,6 +1,7 @@
 package com.shopping.shopping_mall.api;
 
 import com.shopping.shopping_mall.domain.Users;
+import com.shopping.shopping_mall.dto.UserDto;
 import com.shopping.shopping_mall.repository.UserRepository;
 import com.shopping.shopping_mall.service.UserService;
 import jakarta.validation.Valid;
@@ -23,12 +24,15 @@ public class UserApiController {
     private final UserRepository userRepository;
 
     @PostMapping("/user")
-    public CreateUserResponse saveUser(@RequestBody @Valid CreateUserRequest createUserRequest){
+    public com.shopping.shopping_mall.dto.UserDto.CreateUserResponse saveUser(@RequestBody @Valid com.shopping.shopping_mall.dto.UserDto.CreateUserRequest createUserRequest){
         Users users = new Users();
         users.setName(createUserRequest.getName());
+        users.setUserLoginId(createUserRequest.getUserLoginId());
+        users.setPassword(createUserRequest.getPassword());
+        users.setPhoneNumber(createUserRequest.getPhoneNumber());
        // users.setUserId(createUserRequest.getUserId());
         Long id = userService.join(users);
-        return new CreateUserResponse(id);
+        return new com.shopping.shopping_mall.dto.UserDto.CreateUserResponse(id);
     }
 
     @GetMapping("/users")
@@ -51,16 +55,10 @@ public class UserApiController {
     public void deleteUser(@PathVariable("id") Long id){
         userRepository.deleteById(id);
     }
-    @Data
-    static class CreateUserRequest{
-        private String name;
-      //  private String userId;
-    }
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    static class CreateUserResponse{
-        private Long id;
+
+    @GetMapping("/login")
+    public String login(){
+        return "index";
     }
     @Data
     @AllArgsConstructor
