@@ -22,7 +22,9 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     @JsonIgnore
     private Order order;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "coupon_id")
+    private Coupon coupon;
     private int orderPrice;
 
     private int count;
@@ -41,13 +43,19 @@ public class OrderItem {
         return orderItem;
 
     }
-
+    public void applyCoupon(Coupon coupon) {
+        this.coupon = coupon;
+    }
     public void cancel(){
         getItem().addStock(count);
     }
 
     public int getTotalPrice(){
-        return getOrderPrice() * getCount();
+        if (coupon != null){
+            System.out.println("쿠폰있어요");
+            return (int)(getOrderPrice() * getCount() - getOrderPrice() * getCoupon().getPercent());
+        }
+        return  getOrderPrice() * getCount();
     }
 
 

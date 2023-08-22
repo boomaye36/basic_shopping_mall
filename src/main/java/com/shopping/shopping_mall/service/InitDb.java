@@ -34,9 +34,12 @@ public class InitDb {
         public void dbInit1(){
             Users user = createUser("userA", "서울", "1", "1111");
             em.persist(user);
+            createCoupon(user, 0.3f, CouponState.USED);
+            Coupon coupon = createCoupon(user, 0.2f, CouponState.SELECTED);
             List<Category> categories = categoryRepository.findByIdIn(Arrays.asList(1L, 2L));
 
-            Item item1 = createItem("item1 ", 10000, 100, categories);
+            Item item1 = createItem("item1", 10000, 100, categories);
+
 //            for (Category category : item1.getCategories()) {
 //                System.out.println("item categories = " + category.getName());
 //            }
@@ -46,11 +49,11 @@ public class InitDb {
 //                    .orElseThrow(() -> new EntityNotFoundException("카테고리가 존재하지 않습니다. categoryId: " + 2L));
             List<Category> categories1 = categoryRepository.findByIdIn(Arrays.asList(3L, 2L));
 
-            Item item2 = createItem("item2 ", 12000, 100, categories1);
+            Item item2 = createItem("item2", 12000, 100, categories1);
             em.persist(item2);
 
             OrderItem orderItem1 = OrderItem.createOrderitem(item1, 10000, 1);
-            OrderItem orderItem2 = OrderItem.createOrderitem(item2, 12000, 1);
+            OrderItem orderItem2 = OrderItem.createOrderitem(item2, 12000, 2);
 
             Delivery delivery = createDelivery(user, "롯데");
             Order order = Order.createOrder(user, delivery, orderItem1, orderItem2);
@@ -121,5 +124,13 @@ public class InitDb {
         Category category = new Category();
         category.setName(name);
         return category;
+    }
+
+    private static Coupon createCoupon(Users user, float percent, CouponState couponState){
+        Coupon coupon = new Coupon();
+        coupon.setUsers(user);
+        coupon.setPercent(percent);
+        coupon.setCouponState(couponState);
+        return coupon;
     }
 }

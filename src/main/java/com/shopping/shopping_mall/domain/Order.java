@@ -103,7 +103,6 @@ public class Order {
      */
     public int getTotalPrice() {
         int totalPrice = 0;
-        totalPrice = 0;
         totalPrice += orderItems.stream().mapToInt(OrderItem::getTotalPrice).sum();
         return totalPrice;
     }

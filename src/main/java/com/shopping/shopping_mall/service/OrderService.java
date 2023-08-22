@@ -1,12 +1,16 @@
 package com.shopping.shopping_mall.service;
 
 import com.shopping.shopping_mall.domain.*;
+import com.shopping.shopping_mall.repository.CouponRepository;
 import com.shopping.shopping_mall.repository.ItemRepository;
 import com.shopping.shopping_mall.repository.OrderRepository;
 import com.shopping.shopping_mall.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -14,6 +18,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
+    private final CouponRepository couponRepository;
     //주문
     @Transactional
     public Long order(Long userId, Long itemId, int count){
@@ -37,4 +42,11 @@ public class OrderService {
 
         return order.getId();
     }
+    public Coupon findCouponForUser(Users user) {
+        // Assume that there can be only one selected coupon per user
+        Optional<Coupon> selectedCoupon = couponRepository.findByUsersAndCouponState(user, CouponState.SELECTED);
+
+        return selectedCoupon.orElse(null); // Return null if no selected coupon found
+    }
+
 }

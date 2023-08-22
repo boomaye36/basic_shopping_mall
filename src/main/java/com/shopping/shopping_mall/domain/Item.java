@@ -49,6 +49,9 @@ public class Item {
                 inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories = new ArrayList<>();
 
+    @OneToMany(mappedBy = "item")
+    private List<Review> reviews = new ArrayList<>();
+
     @CreatedDate
     private LocalDateTime createdAt;
 

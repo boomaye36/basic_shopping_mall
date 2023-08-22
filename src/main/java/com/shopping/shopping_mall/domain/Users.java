@@ -61,6 +61,15 @@ public class Users {
 
     @OneToMany(mappedBy = "user")
     private List<UserChatRoom> userChatRooms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "users")
+    private List<Coupon> couponList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviewList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> commentList = new ArrayList<>();
     @CreatedDate
     private LocalDateTime createdAt;
 
